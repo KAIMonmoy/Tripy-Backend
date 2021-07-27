@@ -5,12 +5,6 @@ from rest_framework.permissions import AllowAny
 from core.serializers import *
 
 
-class PlaceList(generics.ListAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = PlaceSerializer
-    queryset = Place.objects.all()
-
-
 class PlaceFilter(filters.FilterSet):
     country = filters.CharFilter(field_name="country", lookup_expr='icontains')
     state = filters.CharFilter(field_name="state", lookup_expr='icontains')
@@ -24,12 +18,6 @@ class PlaceSearch(generics.ListAPIView):
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PlaceFilter
-
-
-class HotelList(generics.ListAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = HotelSerializer
-    queryset = Hotel.objects.all()
 
 
 class HotelFilter(filters.FilterSet):

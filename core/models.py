@@ -1,4 +1,9 @@
 from django.db import models
+from datetime import datetime
+
+
+def upload_to(instance, name):
+    return f"images/{int(datetime.now().timestamp())}_{name}"
 
 
 class Place(models.Model):
@@ -7,6 +12,8 @@ class Place(models.Model):
     country = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
+    # Image
+    image = models.ImageField(upload_to=upload_to, blank=True, null=True)
 
     def __str__(self):
         return f"{self.city}, {self.state}, {self.country}"
@@ -31,6 +38,13 @@ class Hotel(models.Model):
     # Ratings
     total_ratings = models.PositiveIntegerField(blank=True, default=0)
     average_rating = models.FloatField(blank=True, default=0.0)
+    # Image
+    image = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    # Hotel Site
+    link = models.URLField(blank=True, null=True)
+    # Contact Info
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=63, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -46,3 +60,46 @@ class Room(models.Model):
 
     def __str__(self):
         return f"{self.hotel.name} | {self.number}"
+
+
+class Restaurant(models.Model):
+    PRICE_OPTIONS = [
+        ('low', 'Low'),
+        ('mid', 'Mid'),
+        ('high', 'High'),
+    ]
+    name = models.CharField(max_length=255)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    # Deals
+    allows_free_cancellation = models.BooleanField(blank=True, default=False)
+    allows_special_offers = models.BooleanField(blank=True, default=False)
+    # Amenities
+    has_free_wifi = models.BooleanField(blank=True, default=False)
+    has_free_parking = models.BooleanField(blank=True, default=False)
+    # Prices
+    price = models.CharField(max_length=7, choices=PRICE_OPTIONS, blank=True, default='low')
+    # Ratings
+    total_ratings = models.PositiveIntegerField(blank=True, default=0)
+    average_rating = models.FloatField(blank=True, default=0.0)
+    # Image
+    image = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    # Restaurant Site
+    link = models.URLField(blank=True, null=True)
+    # Contact Info
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=63, blank=True, null=True)
+    # Cuisines
+    has_bengali = models.BooleanField(blank=True, default=False)
+    has_international = models.BooleanField(blank=True, default=False)
+    has_indian = models.BooleanField(blank=True, default=False)
+    has_thai = models.BooleanField(blank=True, default=False)
+    has_chinese = models.BooleanField(blank=True, default=False)
+    has_mexican = models.BooleanField(blank=True, default=False)
+    has_italian = models.BooleanField(blank=True, default=False)
+    has_korean = models.BooleanField(blank=True, default=False)
+    has_bar = models.BooleanField(blank=True, default=False)
+    has_fast_food = models.BooleanField(blank=True, default=False)
+
+    def __str__(self):
+        return self.name
