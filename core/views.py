@@ -54,3 +54,43 @@ class HotelSearch(generics.ListAPIView):
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = HotelFilter
+
+
+class RestaurantFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name="name", lookup_expr='icontains')
+    price = filters.CharFilter(field_name="price", lookup_expr='icontains')
+    address = filters.CharFilter(field_name="address", lookup_expr='icontains')
+    min_rating = filters.NumberFilter(field_name="average_rating", lookup_expr='gte')
+
+    class Meta:
+        model = Restaurant
+        fields = [
+            'name',
+            'place',
+            'address',
+            'allows_free_cancellation',
+            'allows_special_offers',
+            'has_free_wifi',
+            'has_free_parking',
+            'price',
+            'min_rating',
+            'has_bengali',
+            'has_international',
+            'has_indian',
+            'has_thai',
+            'has_chinese',
+            'has_mexican',
+            'has_italian',
+            'has_korean',
+            'has_bar',
+            'has_fast_food',
+        ]
+
+
+class RestaurantSearch(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = RestaurantSerializer
+    queryset = Restaurant.objects.all()
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = RestaurantFilter

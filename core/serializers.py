@@ -22,3 +22,11 @@ class HotelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hotel
         fields = "__all__"
+
+
+class RestaurantSerializer(serializers.ModelSerializer):
+    room_set = RoomSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Restaurant
+        fields = "__all__"
