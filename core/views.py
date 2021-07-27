@@ -127,3 +127,9 @@ class ThingsToDoSearch(generics.ListAPIView):
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ThingsToDoFilter
+
+
+class ThingsToDoDetail(generics.RetrieveAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = ThingsToDoSerializer
+    queryset = ThingsToDo.objects.all()
