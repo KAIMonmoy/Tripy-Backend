@@ -26,6 +26,8 @@ class Hotel(models.Model):
     name = models.CharField(max_length=255)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     address = models.CharField(max_length=255)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
     # Deals
     allows_free_cancellation = models.BooleanField(blank=True, default=False)
     allows_pay_at_stay = models.BooleanField(blank=True, default=False)
@@ -74,6 +76,8 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=255)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     address = models.CharField(max_length=255)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
     # Deals
     allows_free_cancellation = models.BooleanField(blank=True, default=False)
     allows_special_offers = models.BooleanField(blank=True, default=False)
@@ -130,3 +134,17 @@ class RestaurantMenu(models.Model):
 
     def __str__(self):
         return f'{self.restaurant} | {self.name}'
+
+
+class ThingsToDo(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    display_image = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.name} | {self.place}'

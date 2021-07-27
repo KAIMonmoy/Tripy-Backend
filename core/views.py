@@ -10,6 +10,10 @@ class PlaceFilter(filters.FilterSet):
     state = filters.CharFilter(field_name="state", lookup_expr='icontains')
     city = filters.CharFilter(field_name="city", lookup_expr='icontains')
 
+    class Meta:
+        model = Place
+        fields = ['country', 'state', 'city']
+
 
 class PlaceSearch(generics.ListAPIView):
     permission_classes = [AllowAny]
@@ -56,6 +60,12 @@ class HotelSearch(generics.ListAPIView):
     filterset_class = HotelFilter
 
 
+class HotelDetail(generics.RetrieveAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = HotelSerializer
+    queryset = Hotel.objects.all()
+
+
 class RestaurantFilter(filters.FilterSet):
     name = filters.CharFilter(field_name="name", lookup_expr='icontains')
     price = filters.CharFilter(field_name="price", lookup_expr='icontains')
@@ -94,3 +104,26 @@ class RestaurantSearch(generics.ListAPIView):
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = RestaurantFilter
+
+
+class RestaurantDetail(generics.RetrieveAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = RestaurantSerializer
+    queryset = Restaurant.objects.all()
+
+
+class ThingsToDoFilter(filters.FilterSet):
+    name = filters.CharFilter(field_name="name", lookup_expr='icontains')
+
+    class Meta:
+        model = ThingsToDo
+        fields = ['name', 'place']
+
+
+class ThingsToDoSearch(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = ThingsToDoSerializer
+    queryset = ThingsToDo.objects.all()
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ThingsToDoFilter

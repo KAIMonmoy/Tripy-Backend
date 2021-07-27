@@ -36,3 +36,9 @@ class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = "__all__"
+
+
+class ThingsToDoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ThingsToDo
+        fields = "__all__"
