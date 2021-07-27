@@ -14,6 +14,9 @@ class Place(models.Model):
     city = models.CharField(max_length=255)
     # Image
     image = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    display_image_1 = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    display_image_2 = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    display_image_3 = models.ImageField(upload_to=upload_to, blank=True, null=True)
 
     def __str__(self):
         return f"{self.city}, {self.state}, {self.country}"
@@ -84,6 +87,9 @@ class Restaurant(models.Model):
     average_rating = models.FloatField(blank=True, default=0.0)
     # Image
     image = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    display_image_1 = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    display_image_2 = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    display_image_3 = models.ImageField(upload_to=upload_to, blank=True, null=True)
     # Restaurant Site
     link = models.URLField(blank=True, null=True)
     # Contact Info
@@ -103,3 +109,24 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RestaurantMenu(models.Model):
+    FOOD_CATEGORY = [
+        ('general', 'General'),
+        ('breakfast', 'Breakfast'),
+        ('lunch', 'Lunch'),
+        ('dinner', 'Dinner'),
+        ('snack', 'Snack'),
+        ('desert', 'Desert'),
+        ('drink', 'Drink'),
+    ]
+
+    name = models.CharField(max_length=255)
+    price = models.FloatField()
+    image = models.ImageField(upload_to=upload_to, blank=True, null=True)
+    category = models.CharField(max_length=31, choices=FOOD_CATEGORY, default='general')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.restaurant} | {self.name}'

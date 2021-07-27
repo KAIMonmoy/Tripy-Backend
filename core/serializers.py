@@ -24,8 +24,14 @@ class HotelSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class RestaurantMenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RestaurantMenu
+        fields = "__all__"
+
+
 class RestaurantSerializer(serializers.ModelSerializer):
-    room_set = RoomSerializer(read_only=True, many=True)
+    restaurantmenu_set = RestaurantMenuSerializer(read_only=True, many=True)
 
     class Meta:
         model = Restaurant
